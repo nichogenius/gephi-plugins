@@ -37,12 +37,14 @@
         </dependency>
         <dependency>
             <groupId>org.gephi</groupId>
-            <artifactId>desktop-import</artifactId>
+            <artifactId>io-importer-plugin</artifactId> <!-- This is necessary to have all importers implementations such as GML in the classpath -->
         </dependency>
         <dependency>
             <groupId>org.gephi</groupId>
             <artifactId>io-processor-plugin</artifactId>
         </dependency>
+        
+        <!-- Test dependencies -->
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
@@ -53,6 +55,11 @@
             <groupId>org.hamcrest</groupId>
             <artifactId>hamcrest-core</artifactId>
             <version>1.3</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.netbeans.modules</groupId>
+            <artifactId>org-netbeans-modules-masterfs</artifactId> <!-- See http://wiki.netbeans.org/UsingFileSystemsMasterfs -->
             <scope>test</scope>
         </dependency>
     </dependencies>
