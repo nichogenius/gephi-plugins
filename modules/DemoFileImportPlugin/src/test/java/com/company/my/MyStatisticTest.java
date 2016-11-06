@@ -2,9 +2,11 @@ package com.company.my;
 
 import java.io.File;
 import java.net.URISyntaxException;
+import org.gephi.graph.api.GraphModel;
 import org.gephi.io.importer.api.Container;
 import org.gephi.io.importer.api.ImportController;
 import org.gephi.io.processor.plugin.DefaultProcessor;
+import org.gephi.io.processor.spi.Processor;
 import org.gephi.project.api.ProjectController;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -64,8 +66,11 @@ public class MyStatisticTest {
         ImportController importController = Lookup.getDefault().lookup(ImportController.class);
         container = importController.importFile(file);
         assertNotNull(container);
+        Processor pc = new DefaultProcessor();
         importController.process(container, new DefaultProcessor(), projectController.getCurrentWorkspace());
-
+        GraphModel gm = projectController.getCurrentWorkspace().getLookup().lookup(GraphModel.class);
+        int nodes = gm.getGraph().getNodeCount();
+        System.out.println("node count: " + nodes);
     }
 
 }
