@@ -24,6 +24,7 @@ public abstract class MinimumSpanningTreeAlgorithm implements LongTask, Statisti
               
     public abstract void execute(GraphModel graphModel);
     public abstract JPanel getOptions();
+    private boolean isMaxSpanningTree = false;
 
     
     //These 2 methods return the name shown to the user in the interface:
@@ -32,6 +33,14 @@ public abstract class MinimumSpanningTreeAlgorithm implements LongTask, Statisti
     @Override
     public final String toString(){
         return this.getName();
+    }
+
+    public boolean isMaximumSpanningTree() {
+        return this.isMaxSpanningTree;
+    }
+
+    public void setMaxSpanningTree(boolean type) {
+        this.isMaxSpanningTree = type;
     }
     
     

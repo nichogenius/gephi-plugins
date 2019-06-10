@@ -5,6 +5,8 @@ import org.gephi.graph.api.GraphModel;
 import org.gephi.statistics.spi.Statistics;
 import org.gephi.utils.longtask.spi.LongTask;
 import org.gephi.utils.progress.ProgressTicket;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -26,8 +28,8 @@ public class MinimumSpanningTree implements Statistics, LongTask {
     @Override
     public void execute(GraphModel graphModel){
         this.stAlgorithm = new KruskalsAlgorithm();
+        this.stAlgorithm.setMaxSpanningTree(isMaximumSpanningTree());
         stAlgorithm.execute(graphModel);
-        
     }
     /** Only useful if the algorithm takes graph type into account. */
 
@@ -37,6 +39,15 @@ public class MinimumSpanningTree implements Statistics, LongTask {
 
     public void setDirected(boolean directed) {
         this.directed = directed;
+    }
+
+    public boolean isMaximumSpanningTree() {
+        String[] values = {"Minimum", "Maximum"};
+        Object selected = JOptionPane.showInputDialog(null, "Minimum/Maximum Spanning Tree", "Selection", JOptionPane.DEFAULT_OPTION, null, values, "Minimum");
+        if (selected.toString() == "Minimum") {
+            return false;
+        }
+        return true;
     }
 
     /** ----------------------------------------------------------- */

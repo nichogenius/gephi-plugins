@@ -2,6 +2,7 @@ package com.carlschroedl.gephi.plugin.minimumspanningtree;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Comparator;
 import java.util.PriorityQueue;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -39,7 +40,10 @@ public class KruskalsAlgorithm extends MinimumSpanningTreeAlgorithm {
         Graph graph = graphModel.getGraph();
         graph.writeLock();
         kNodes = new HashMap<Object, KNode>();
-        PriorityQueue<KEdge> edgeQ = new PriorityQueue<KEdge>();
+
+
+
+        PriorityQueue<KEdge> edgeQ = new PriorityQueue<KEdge>(new KEdgeMinMaxComparator(this.isMaximumSpanningTree()));
         this.STweight = 0;
         this.edgesInST = 0;
         //<new attributes for the spanning tree>
@@ -66,6 +70,7 @@ public class KruskalsAlgorithm extends MinimumSpanningTreeAlgorithm {
 
             //Convert all edges to the Comparable KEdge, then add to PriorityQueue
             for (Edge e : graph.getEdges()) {
+                e.setAttribute(SPANNING_TREE_COLUMN_ID, NOT_IN_SPANNING_TREE);
                 edgeQ.add(new KEdge(e));
             }//endforeach
 
@@ -222,6 +227,29 @@ public class KruskalsAlgorithm extends MinimumSpanningTreeAlgorithm {
         }
         //</editor-fold>
     }//end private class
+
+    /*
+     * Creates a reversible comparator object to be used by the priority queue
+     */
+    private class KEdgeMinMaxComparator implements Comparator<KEdge> {
+        private final boolean IS_MAX_SPANNING_TREE;
+
+        public KEdgeMinMaxComparator() {
+            this.IS_MAX_SPANNING_TREE = false;
+        }
+        public KEdgeMinMaxComparator(boolean maxSpanningTree) {
+            this.IS_MAX_SPANNING_TREE = maxSpanningTree;
+        }
+
+        @Override
+        public int compare(KEdge left, KEdge right) {
+            if (this.IS_MAX_SPANNING_TREE) {
+                return right.compareTo(left);
+            } else {
+                return left.compareTo(right);
+            }
+        }
+    }
 
     /*
      * Simply unionizes two disjoint sets. This would be a static method were it
@@ -403,6 +431,7 @@ public class KruskalsAlgorithm extends MinimumSpanningTreeAlgorithm {
                     return 0;
                 }
         }
+
     }//end inner class
 // </editor-fold>
 }//outer class
